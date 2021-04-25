@@ -25,6 +25,7 @@ class IMDB(object):
         for index,movie in enumerate(movie_frame):
             print(index)
             #fetch run time
+            
             try: 
                 movie_time.append(movie.xpath(".//span[contains(@class,'runtime')]/text()")[0].strip())
             except:
@@ -126,14 +127,15 @@ class IMDB(object):
     
 if __name__ == '__main__':
     data = pd.DataFrame()
-    for count in range(1):
-        print(count)
+    for count in range(2):
+        print("Page number: ",count)
         url = "https://www.imdb.com/search/title/?title_type=feature&genres=horror&sort=year,desc&start={}".format(count*50+1)
         site1 = IMDB(url)
         result = site1.movieData()
         data = data.append(result)
+    data.reset_index(inplace=True)
     data.to_csv("./data.csv", encoding='utf-8') # store the data into the csv file
-    data.to_json("./imdb.json")  # store the data into the json file
+    data.to_json("./data.json")  # store the data into the json file
     """
     #change database connectivity
     con = pyodbc.connect('Driver={SQL Server Native Client 11.0};'
